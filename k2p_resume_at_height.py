@@ -47,8 +47,8 @@ def find_target_layer_with_context(lines: List[str], target_z: float) -> dict[fl
             # The next line should contain the Z height
             if i + 1 < len(lines):
                 z_line = lines[i + 1].strip()
-                # Match pattern: ;Z:23.14 or ;Z:23.0292
-                z_match = re.match(r";Z:([\d.]+)", z_line)
+                # Match pattern: ;Z:23.14 (Cura-style) or ;:23.14 (PrusaSlicer-style)
+                z_match = re.match(r";Z:([\d.]+)", z_line) or re.match(r";:([\d.]+)", z_line)
                 if z_match:
                     layer_z = float(z_match.group(1))
                     all_layers.append((layer_z, i))
